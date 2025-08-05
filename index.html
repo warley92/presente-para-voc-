@@ -238,10 +238,36 @@ Reuni inspirações</div>
   });
 
   function resposta(valor) {
-    if (valor) {
-      document.getElementById("heartFinal").classList.remove("hidden");
-      document.getElementById("pergunta").classList.add("hidden");
-    } else {
+  const letra = document.getElementById("letraCompleta");
+  const pergunta = document.getElementById("pergunta");
+  const heart = document.getElementById("heartFinal");
+  const respostaNao = document.getElementById("respostaNao");
+
+  pergunta.classList.add("hidden");
+
+  if (valor) {
+    heart.classList.remove("hidden");
+  } else {
+    letra.classList.add("hidden");
+    respostaNao.classList.remove("hidden");
+    respostaNao.style.fontSize = "2em";
+    respostaNao.style.textAlign = "center";
+
+    const nome = ["J", "H", "E", "N", "E", "F", "F", "E", "R"];
+    let i = 0;
+
+    const interval = setInterval(() => {
+      if (i < nome.length) {
+        const letraAtual = document.createElement("div");
+        letraAtual.textContent = nome[i];
+        respostaNao.appendChild(letraAtual);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 700);
+  }
+} else {
       document.getElementById("pergunta").classList.add("hidden");
       let frases = [
         "Jeito seu que me encanta.",
