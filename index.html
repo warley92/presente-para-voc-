@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Pensando em Você 💌</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -13,16 +14,31 @@
 
     body {
       background: linear-gradient(135deg, #1e1e2f, #3a3a5c);
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Dancing Script', cursive;
       color: #f5f5f5;
       padding: 30px 15px;
       text-align: center;
+      overflow-x: hidden;
+    }
+
+    .hidden {
+      display: none;
     }
 
     h1 {
       font-size: 2.2em;
       margin-bottom: 20px;
       color: #ff66cc;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
 
     iframe {
@@ -33,6 +49,11 @@
       border-radius: 15px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
       margin-bottom: 30px;
+      transition: transform 0.3s ease;
+    }
+
+    iframe:hover {
+      transform: scale(1.02);
     }
 
     .letra {
@@ -43,66 +64,166 @@
       margin: auto;
       text-align: left;
       line-height: 1.6;
-      font-size: 1.1em;
+      font-size: 1.3em;
+      white-space: pre-line;
+      animation: fadeIn 2s ease forwards;
     }
 
-    .letra strong {
-      display: block;
-      margin-top: 20px;
-      font-size: 1.2em;
-      color: #ffccff;
+    .estrofe {
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+      animation-delay: var(--delay);
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.5em;
-      }
+    #intro, #senha-form {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 15px;
+      max-width: 500px;
+      margin: 100px auto;
+    }
 
-      iframe {
-        height: 200px;
-      }
+    #senha-form input {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: none;
+      margin-top: 10px;
+    }
+
+    #senha-form button, #abrirPresente {
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #ff66cc;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .heart {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 30px;
+      height: 30px;
+      background-color: red;
+      transform: rotate(-45deg);
+      animation: beat 1s infinite;
+    }
+
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -15px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 15px;
+      top: 0;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1) rotate(-45deg); }
+      50% { transform: scale(1.2) rotate(-45deg); }
     }
   </style>
+  <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.onkeydown = function(e) {
+      if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.key === 'U')) {
+        return false;
+      }
+    }
+  </script>
 </head>
 <body>
-  <h1>Essa música é pra você 💌</h1>
 
+<div id="senha-form">
+  <h2>Digite a senha secreta 💎</h2>
+  <input type="password" id="senha" placeholder="Digite aqui...">
+  <br>
+  <button onclick="verificarSenha()">Entrar</button>
+</div>
+
+<div id="intro" class="hidden">
+  <h1>Essa música é pra você 💌</h1>
+  <p style="margin-top: 10px; font-size: 1.2em;">Você encontrou a chave... agora abra o presente.</p>
+  <button id="abrirPresente">Ouvir</button>
+</div>
+
+<div id="conteudo" class="hidden">
   <iframe 
     src="https://www.youtube.com/embed/WNlroc7tIAc" 
     allowfullscreen>
   </iframe>
 
   <div class="letra">
-    <strong>[Verso 1]</strong>
-    Quando vejo seu sorriso<br>
-    eu enxergo um paraíso<br>
-    me prendo em teus cabelos cacheados<br>
-    e em cada detalhe quando estou ao seu lado<br>
+    <div class="estrofe" style="--delay: 0s">
+      Quando vejo seu sorriso
+      eu enxergo um paraíso
+      me prendo em teus cabelos cacheados
+      e em cada detalhe quando estou ao seu lado
+    </div>
 
-    <strong>[Verso 2]</strong>
-    Você tem um olhar profundo<br>
-    Que faz parar meu mundo<br>
-    Quando olho nos teus olhos e me vejo<br>
-    Me vem a vontade de provar do seu beijo<br>
+    <div class="estrofe" style="--delay: 1s">
+      Você tem um olhar profundo
+      Que faz parar meu mundo
+      Quando olho nos teus olhos e me vejo
+      Me vem a vontade de provar do seu beijo
+    </div>
 
-    <strong>[Pré-Refrão]</strong>
-    É surreal e me traz paz<br>
-    implacável pro destino<br>
-    quando se mentaliza ele faz<br>
+    <div class="estrofe" style="--delay: 2s">
+      É surreal e me traz paz
+      implacável pro destino
+      quando se mentaliza ele faz
+    </div>
 
-    <strong>[Refrão]</strong>
-    Jeito seu que me encanta.<br>
-    Humildade além da conta.<br>
-    Então me deixa mergulhar.<br>
-    No teu mar<br>
-    E me faz nadar<br>
-    Feito pôr do sol no mar<br>
-    Feito estrelas e o luar<br>
-    Essas são só pra te dizer<br>
-    Reuni inspirações<br>
+    <div class="estrofe" style="--delay: 3s">
+      Jeito seu que me encanta.
+      Humildade além da conta.
+      Então me deixa mergulhar.
+      No teu mar
+      E me faz nadar
+      Feito pôr do sol no mar
+      Feito estrelas e o luar
+      Essas são só pra te dizer
+      Reuni inspirações
+    </div>
 
-    <strong>[Finalização]</strong>
-    Pensando em você
+    <div class="estrofe" style="--delay: 4s">
+      Pensando em você
+    </div>
   </div>
+</div>
+
+<div class="heart"></div>
+
+<script>
+  function verificarSenha() {
+    const senha = document.getElementById("senha").value.trim().toLowerCase();
+    if (senha === "dopamina") {
+      document.getElementById("senha-form").classList.add("hidden");
+      document.getElementById("intro").classList.remove("hidden");
+    } else {
+      alert("Senha incorreta. Tente novamente.");
+    }
+  }
+
+  document.getElementById("abrirPresente").addEventListener("click", function() {
+    document.getElementById("intro").classList.add("hidden");
+    document.getElementById("conteudo").classList.remove("hidden");
+  });
+</script>
+
 </body>
 </html>
