@@ -162,51 +162,45 @@
 </div>
 
 <div id="conteudo" class="hidden">
-  <iframe 
-    src="https://www.youtube.com/embed/WNlroc7tIAc" 
-    allowfullscreen>
+  <iframe id="video"
+    src="https://www.youtube.com/embed/WNlroc7tIAc?enablejsapi=1" 
+    allow="autoplay; encrypted-media" allowfullscreen>
   </iframe>
 
-  <div class="letra">
-    <div class="estrofe" style="--delay: 0s">
-      Quando vejo seu sorriso
-      eu enxergo um paraíso
-      me prendo em teus cabelos cacheados
-      e em cada detalhe quando estou ao seu lado
-    </div>
-
-    <div class="estrofe" style="--delay: 1s">
-      Você tem um olhar profundo
-      Que faz parar meu mundo
-      Quando olho nos teus olhos e me vejo
-      Me vem a vontade de provar do seu beijo
-    </div>
-
-    <div class="estrofe" style="--delay: 2s">
-      É surreal e me traz paz
-      implacável pro destino
-      quando se mentaliza ele faz
-    </div>
-
-    <div class="estrofe" style="--delay: 3s">
-      Jeito seu que me encanta.
-      Humildade além da conta.
-      Então me deixa mergulhar.
-      No teu mar
-      E me faz nadar
-      Feito pôr do sol no mar
-      Feito estrelas e o luar
-      Essas são só pra te dizer
-      Reuni inspirações
-    </div>
-
-    <div class="estrofe" style="--delay: 4s">
-      Pensando em você
-    </div>
+  <div id="letraCompleta" class="letra">
+    <div class="estrofe" style="--delay: 0s">Quando vejo seu sorriso
+eu enxergo um paraíso
+me prendo em teus cabelos cacheados
+e em cada detalhe quando estou ao seu lado</div>
+    <div class="estrofe" style="--delay: 1s">Você tem um olhar profundo
+Que faz parar meu mundo
+Quando olho nos teus olhos e me vejo
+Me vem a vontade de provar do seu beijo</div>
+    <div class="estrofe" style="--delay: 2s">É surreal e me traz paz
+implacável pro destino
+quando se mentaliza ele faz</div>
+    <div class="estrofe" style="--delay: 3s">Jeito seu que me encanta.
+Humildade além da conta.
+Então me deixa mergulhar.
+No teu mar
+E me faz nadar
+Feito pôr do sol no mar
+Feito estrelas e o luar
+Essas são só pra te dizer
+Reuni inspirações</div>
+    <div class="estrofe" style="--delay: 4s">Pensando em você</div>
   </div>
+
+  <div id="pergunta" class="hidden" style="margin-top: 30px;">
+    <p style="font-size: 1.3em;">Entendeu o que eu quis dizer?</p>
+    <button onclick="resposta(true)">Sim</button>
+    <button onclick="resposta(false)">Não</button>
+  </div>
+
+  <div id="respostaNao" class="hidden letra"></div>
 </div>
 
-<div class="heart"></div>
+<div class="heart hidden" id="heartFinal"></div>
 
 <script>
   function verificarSenha() {
@@ -222,8 +216,73 @@
   document.getElementById("abrirPresente").addEventListener("click", function() {
     document.getElementById("intro").classList.add("hidden");
     document.getElementById("conteudo").classList.remove("hidden");
+    const iframe = document.getElementById("video");
+    const player = new YT.Player(iframe, {
+      events: {
+        'onStateChange': function(event) {
+          if (event.data === YT.PlayerState.ENDED) {
+            document.getElementById("letraCompleta").innerHTML = `Jeito seu que me encanta.<br>
+            Humildade além da conta.<br>
+            Então me deixa mergulhar.<br>
+            No teu mar<br>
+            E me faz nadar<br>
+            Feito pôr do sol no mar<br>
+            Feito estrelas e o luar<br>
+            Essas são só pra te dizer<br>
+            Reuni inspirações`;
+            document.getElementById("pergunta").classList.remove("hidden");
+          }
+        }
+      }
+    });
   });
+
+  function resposta(valor) {
+    if (valor) {
+      document.getElementById("heartFinal").classList.remove("hidden");
+      document.getElementById("pergunta").classList.add("hidden");
+    } else {
+      document.getElementById("pergunta").classList.add("hidden");
+      let frases = [
+        "Jeito seu que me encanta.",
+        "Humildade além da conta.",
+        "Então me deixa mergulhar.",
+        "No teu mar",
+        "E me faz nadar",
+        "Feito pôr do sol no mar",
+        "Feito estrelas e o luar",
+        "Essas são só pra te dizer",
+        "Reuni inspirações"
+      ];
+      let i = 0;
+      let container = document.getElementById("respostaNao");
+      container.classList.remove("hidden");
+      container.innerHTML = "";
+      let interval = setInterval(() => {
+        if (i < frases.length) {
+          let frase = frases[i];
+          let texto = frase;
+          let j = texto.length;
+          let apagar = setInterval(() => {
+            if (j > 1) {
+              texto = texto.substring(0, j - 1);
+              container.innerHTML = container.innerHTML.replace(/<br>$/, "") + "<br>" + texto;
+              j--;
+            } else {
+              container.innerHTML += `<br>${texto.charAt(0)}`;
+              clearInterval(apagar);
+              i++;
+            }
+          }, 100);
+        } else {
+          clearInterval(interval);
+        }
+      }, 1500);
+    }
+  }
 </script>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
