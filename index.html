@@ -29,16 +29,6 @@
       font-size: 2.2em;
       margin-bottom: 20px;
       color: #ff66cc;
-      animation: fadeIn 2s ease forwards;
-    }
-
-    .fade-in {
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
     }
 
     iframe {
@@ -52,10 +42,6 @@
       transition: transform 0.3s ease;
     }
 
-    iframe:hover {
-      transform: scale(1.02);
-    }
-
     .letra {
       background-color: rgba(0, 0, 0, 0.5);
       padding: 25px;
@@ -66,13 +52,11 @@
       line-height: 1.6;
       font-size: 1.3em;
       white-space: pre-line;
-      animation: fadeIn 2s ease forwards;
+      font-family: 'Courier New', monospace;
     }
 
-    .estrofe {
-      opacity: 0;
-      animation: fadeIn 2s ease forwards;
-      animation-delay: var(--delay);
+    .linha {
+      margin: 10px 0;
     }
 
     #intro, #senha-form {
@@ -83,58 +67,55 @@
       margin: 100px auto;
     }
 
-    #senha-form input {
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 8px;
-      border: none;
-      margin-top: 10px;
-    }
-
-    #senha-form button, #abrirPresente {
+    input, button {
       padding: 10px 20px;
       font-size: 1em;
-      background-color: #ff66cc;
-      border: none;
       border-radius: 8px;
-      color: white;
+      border: none;
       margin-top: 15px;
+    }
+
+    button {
+      background-color: #ff66cc;
+      color: white;
       cursor: pointer;
     }
 
-    .heart {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 30px;
-      height: 30px;
+    .heart-center {
+      width: 100px;
+      height: 100px;
       background-color: red;
-      transform: rotate(-45deg);
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
       animation: beat 1s infinite;
+      z-index: 10;
     }
 
-    .heart::before, .heart::after {
+    .heart-center::before,
+    .heart-center::after {
       content: "";
       position: absolute;
-      width: 30px;
-      height: 30px;
+      width: 100px;
+      height: 100px;
       background-color: red;
       border-radius: 50%;
     }
 
-    .heart::before {
-      top: -15px;
+    .heart-center::before {
+      top: -50px;
       left: 0;
     }
 
-    .heart::after {
-      left: 15px;
+    .heart-center::after {
+      left: 50px;
       top: 0;
     }
 
     @keyframes beat {
-      0%, 100% { transform: scale(1) rotate(-45deg); }
-      50% { transform: scale(1.2) rotate(-45deg); }
+      0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(-45deg); }
+      50% { transform: translate(-50%, -50%) scale(1.2) rotate(-45deg); }
     }
   </style>
   <script>
@@ -158,49 +139,60 @@
 <div id="intro" class="hidden">
   <h1>Essa música é pra você 💌</h1>
   <p style="margin-top: 10px; font-size: 1.2em;">Você encontrou a chave... agora abra o presente.</p>
-  <button id="abrirPresente">Ouvir</button>
+  <button onclick="abrirPresente()">Ouvir</button>
 </div>
 
 <div id="conteudo" class="hidden">
-  <iframe id="video"
-    src="https://www.youtube.com/embed/WNlroc7tIAc?enablejsapi=1" 
-    allow="autoplay; encrypted-media" allowfullscreen>
-  </iframe>
+  <iframe id="video" src="https://www.youtube.com/embed/WNlroc7tIAc?enablejsapi=1" allowfullscreen></iframe>
+  <div id="letra" class="letra">
+    Quando vejo seu sorriso
+    eu enxergo um paraíso
+    me prendo em teus cabelos cacheados
+    e em cada detalhe quando estou ao seu lado
 
-  <div id="letraCompleta" class="letra">
-    <div class="estrofe" style="--delay: 0s">Quando vejo seu sorriso
-eu enxergo um paraíso
-me prendo em teus cabelos cacheados
-e em cada detalhe quando estou ao seu lado</div>
-    <div class="estrofe" style="--delay: 1s">Você tem um olhar profundo
-Que faz parar meu mundo
-Quando olho nos teus olhos e me vejo
-Me vem a vontade de provar do seu beijo</div>
-    <div class="estrofe" style="--delay: 2s">É surreal e me traz paz
-implacável pro destino
-quando se mentaliza ele faz</div>
-    <div class="estrofe" style="--delay: 3s">Jeito seu que me encanta.
-Humildade além da conta.
-Então me deixa mergulhar.
-No teu mar
-E me faz nadar
-Feito pôr do sol no mar
-Feito estrelas e o luar
-Essas são só pra te dizer
-Reuni inspirações</div>
-    <div class="estrofe" style="--delay: 4s">Pensando em você</div>
+    Você tem um olhar profundo
+    Que faz parar meu mundo
+    Quando olho nos teus olhos e me vejo
+    Me vem a vontade de provar do seu beijo
+
+    É surreal e me traz paz
+    implacável pro destino
+    quando se mentaliza ele faz
+
+    Jeito seu que me encanta.
+    Humildade além da conta.
+    Então me deixa mergulhar.
+    No teu mar
+    E me faz nadar
+    Feito pôr do sol no mar
+    Feito estrelas e o luar
+    Essas são só pra te dizer
+    Reuni inspirações
+
+    Pensando em você
   </div>
-
-  <div id="pergunta" class="hidden" style="margin-top: 30px;">
-    <p style="font-size: 1.3em;">Entendeu o que eu quis dizer?</p>
-    <button onclick="resposta(true)">Sim</button>
-    <button onclick="resposta(false)">Não</button>
+  <div id="refrão" class="letra hidden">
+    Jeito seu que me encanta
+    Humildade além da conta
+    Então me deixa mergulhar
+    No teu mar
+    E me faz nadar 
+    Feito pôr do sol no mar
+    Feito estrelas e o luar
+    Essas são só pra te dizer
+    Reuni inspirações
   </div>
-
-  <div id="respostaNao" class="hidden letra"></div>
+  <div id="pergunta" class="hidden">
+    <p>Entendeu o que eu quis dizer?</p>
+    <button onclick="respostaSim()">Sim</button>
+    <button onclick="respostaNao()">Não</button>
+  </div>
+  <div id="heart" class="heart-center hidden"></div>
+  <div id="verBtn" class="hidden">
+    <button onclick="rodarAnimacao()">Ver</button>
+  </div>
+  <div id="resultado" class="letra hidden"></div>
 </div>
-
-<div class="heart hidden" id="heartFinal"></div>
 
 <script>
   function verificarSenha() {
@@ -213,102 +205,91 @@ Reuni inspirações</div>
     }
   }
 
-  document.getElementById("abrirPresente").addEventListener("click", function() {
+  function abrirPresente() {
     document.getElementById("intro").classList.add("hidden");
     document.getElementById("conteudo").classList.remove("hidden");
-    const iframe = document.getElementById("video");
-    const player = new YT.Player(iframe, {
+  }
+
+  let player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('video', {
       events: {
-        'onStateChange': function(event) {
-          if (event.data === YT.PlayerState.ENDED) {
-            document.getElementById("letraCompleta").innerHTML = `Jeito seu que me encanta.<br>
-            Humildade além da conta.<br>
-            Então me deixa mergulhar.<br>
-            No teu mar<br>
-            E me faz nadar<br>
-            Feito pôr do sol no mar<br>
-            Feito estrelas e o luar<br>
-            Essas são só pra te dizer<br>
-            Reuni inspirações`;
-            document.getElementById("pergunta").classList.remove("hidden");
-          }
-        }
+        'onStateChange': onPlayerStateChange
       }
     });
-  });
-
-  function resposta(valor) {
-  const letra = document.getElementById("letraCompleta");
-  const pergunta = document.getElementById("pergunta");
-  const heart = document.getElementById("heartFinal");
-  const respostaNao = document.getElementById("respostaNao");
-    respostaNao.innerHTML = "";
-
-  pergunta.classList.add("hidden");
-
-  if (valor) {
-    heart.classList.remove("hidden");
-  } else {
-    letra.classList.add("hidden");
-    respostaNao.classList.remove("hidden");
-    respostaNao.style.fontSize = "2em";
-    respostaNao.style.textAlign = "center";
-
-    const nome = ["J", "H", "E", "N", "E", "F", "F", "E", "R"];
-    let i = 0;
-
-    const interval = setInterval(() => {
-      if (i < nome.length) {
-        const letraAtual = document.createElement("div");
-        letraAtual.textContent = nome[i];
-        respostaNao.appendChild(letraAtual);
-        i++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 700);
   }
-} else {
-      document.getElementById("pergunta").classList.add("hidden");
-      let frases = [
-        "Jeito seu que me encanta.",
-        "Humildade além da conta.",
-        "Então me deixa mergulhar.",
-        "No teu mar",
-        "E me faz nadar",
-        "Feito pôr do sol no mar",
-        "Feito estrelas e o luar",
-        "Essas são só pra te dizer",
-        "Reuni inspirações"
-      ];
-      let i = 0;
-      let container = document.getElementById("respostaNao");
-      container.classList.remove("hidden");
-      container.innerHTML = "";
-      let interval = setInterval(() => {
-        if (i < frases.length) {
-          let frase = frases[i];
-          let texto = frase;
-          let j = texto.length;
-          let apagar = setInterval(() => {
-            if (j > 1) {
-              texto = texto.substring(0, j - 1);
-              container.innerHTML = container.innerHTML.replace(/<br>$/, "") + "<br>" + texto;
-              j--;
-            } else {
-              container.innerHTML += `<br>${texto.charAt(0)}`;
-              clearInterval(apagar);
-              i++;
-            }
-          }, 100);
-        } else {
-          clearInterval(interval);
-        }
-      }, 1500);
+
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+      document.getElementById("letra").classList.add("hidden");
+      document.getElementById("refrão").classList.remove("hidden");
+      document.getElementById("pergunta").classList.remove("hidden");
     }
   }
-</script>
 
+  function respostaSim() {
+    document.getElementById("pergunta").classList.add("hidden");
+    document.getElementById("heart").classList.remove("hidden");
+    document.getElementById("verBtn").classList.remove("hidden");
+  }
+
+  function respostaNao() {
+    document.getElementById("pergunta").classList.add("hidden");
+    rodarAnimacao();
+  }
+
+  function rodarAnimacao() {
+    document.getElementById("refrão").classList.add("hidden");
+    document.getElementById("heart").classList.add("hidden");
+    document.getElementById("verBtn").classList.add("hidden");
+
+    const frases = [
+      "Jeito seu que me encanta",
+      "Humildade além da conta",
+      "Então me deixa mergulhar",
+      "No teu mar",
+      "E me faz nadar",
+      "Feito pôr do sol no mar",
+      "Feito estrelas e o luar",
+      "Essas são só pra te dizer",
+      "Reuni inspirações"
+    ];
+
+    const container = document.getElementById("resultado");
+    container.classList.remove("hidden");
+    container.innerHTML = "";
+
+    frases.forEach((frase) => {
+      const div = document.createElement("div");
+      div.classList.add("linha");
+      div.textContent = frase;
+      container.appendChild(div);
+    });
+
+    const elementos = Array.from(container.children);
+
+    setTimeout(() => apagarFraseSequencial(0, frases, elementos), 2000);
+  }
+
+  function apagarFraseSequencial(index, frases, elementos) {
+    if (index >= elementos.length) return;
+
+    const div = elementos[index];
+    const texto = frases[index];
+    let i = texto.length;
+
+    const intervalo = setInterval(() => {
+      if (i > 1) {
+        i--;
+        div.textContent = texto.slice(0, i);
+      } else {
+        clearInterval(intervalo);
+        div.textContent = texto.charAt(0);
+        apagarFraseSequencial(index + 1, frases, elementos);
+      }
+    }, 80);
+  }
+</script>
 <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
