@@ -272,8 +272,17 @@
   }
 
   function apagarFraseSequencial(index, frases, elementos) {
-    if (index >= elementos.length) return;
-
+    if (index >= elementos.length) {
+      // ↓↓↓ Código novo: dispara quando o efeito terminar
+      const mensagemFinal = document.createElement("div");
+      mensagemFinal.textContent = "Espero que tenha gostado do seu mar... porque eu ainda tô nadando. 🌊💖"; // ← Texto personalizado
+      mensagemFinal.style.textAlign = "center"; // ← Centraliza
+      mensagemFinal.style.marginTop = "20px"; // ← Espaçamento
+      mensagemFinal.style.fontSize = "1.5em"; // ← Tamanho da fonte
+      document.getElementById("resultado").appendChild(mensagemFinal); // ← Adiciona ao container 
+      
+      return;
+    }
     const div = elementos[index];
     const texto = frases[index];
     let i = texto.length;
@@ -294,3 +303,4 @@
 
 </body>
 </html>
+
