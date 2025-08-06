@@ -273,14 +273,22 @@
 
   function apagarFraseSequencial(index, frases, elementos) {
     if (index >= elementos.length) {
-      // ↓↓↓ Código novo: dispara quando o efeito terminar
       const mensagemFinal = document.createElement("div");
-      mensagemFinal.textContent = "Espero que tenha gostado do seu mar... porque eu ainda tô nadando. 🌊💖"; // ← Texto personalizado
-      mensagemFinal.style.textAlign = "center"; // ← Centraliza
-      mensagemFinal.style.marginTop = "20px"; // ← Espaçamento
-      mensagemFinal.style.fontSize = "1.5em"; // ← Tamanho da fonte
-      document.getElementById("resultado").appendChild(mensagemFinal); // ← Adiciona ao container 
+        mensagemFinal.style.textAlign = "center";
+        mensagemFinal.style.marginTop = "20px";
+        mensagemFinal.style.fontSize = "1.5em";
+        document.getElementById("resultado").appendChild(mensagemFinal);
       
+        const textoFinal = "Espero que tenha gostado do seu mar... porque eu ainda tô nadando. 🌊💖";
+        let i = 0;
+        const digitar = setInterval(() => {
+          if (i < textoFinal.length) {
+            mensagemFinal.textContent += textoFinal.charAt(i);
+            i++;
+          } else {
+            clearInterval(digitar);
+          }
+        }, 75); // Velocidade da digitação (em ms)
       return;
     }
     const div = elementos[index];
@@ -303,4 +311,5 @@
 
 </body>
 </html>
+
 
