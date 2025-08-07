@@ -32,12 +32,12 @@
     }
 
     video {
-      width: 75%;
-      max-width: 400px;
+      width: 100%;
+      max-width: 560px;
       height: auto;
       border-radius: 15px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      margin-bottom: 30px;
+      margin-bottom: 10px;
     }
 
     .letra {
@@ -115,6 +115,16 @@
       0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(-45deg); }
       50% { transform: translate(-50%, -50%) scale(1.2) rotate(-45deg); }
     }
+
+    #download-container {
+      margin-top: 10px;
+    }
+
+    #mensagem-download {
+      color: #ffc;
+      font-size: 1em;
+      margin-top: 10px;
+    }
   </style>
   <script>
     document.addEventListener('contextmenu', event => event.preventDefault());
@@ -129,7 +139,7 @@
 
 <div id="senha-form">
   <h2>Digite a senha secreta 💎</h2>
-  <input type="password" id="senha" placeholder="Mesma do Criptex...">
+  <input type="password" id="senha" placeholder="Digite aqui...">
   <br>
   <button onclick="verificarSenha()">Entrar</button>
 </div>
@@ -145,6 +155,12 @@
     <source src="meuvideo.mp4" type="video/mp4">
     Seu navegador não suporta vídeos HTML5.
   </video>
+
+  <div id="download-container">
+    <button onclick="baixarMusica()">⬇️ Baixar Música</button>
+    <div id="mensagem-download" class="hidden">Aguarde o vídeo terminar.</div>
+  </div>
+
   <div id="letra" class="letra">
     Quando vejo seu sorriso
     eu enxergo um paraíso
@@ -172,6 +188,7 @@
 
     Pensando em você
   </div>
+
   <div id="refrão" class="letra hidden">
     Jeito seu que me encanta
     Humildade além da conta
@@ -183,11 +200,13 @@
     Essas são só pra te dizer
     Reuni inspirações
   </div>
+
   <div id="pergunta" class="hidden">
     <p>Entendeu o que eu quis dizer?</p>
     <button onclick="respostaSim()">Sim</button>
     <button onclick="respostaNao()">Não</button>
   </div>
+
   <div id="heart" class="heart-center hidden"></div>
   <div id="verBtn" class="hidden">
     <button onclick="rodarAnimacao()">Ver</button>
@@ -196,6 +215,8 @@
 </div>
 
 <script>
+  let videoTerminado = false;
+
   function verificarSenha() {
     const senha = document.getElementById("senha").value.trim().toLowerCase();
     if (senha === "dopamina") {
@@ -214,11 +235,22 @@
   document.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById("video");
     video.addEventListener("ended", () => {
+      videoTerminado = true;
       document.getElementById("letra").classList.add("hidden");
       document.getElementById("refrão").classList.remove("hidden");
       document.getElementById("pergunta").classList.remove("hidden");
     });
   });
+
+  function baixarMusica() {
+    const msg = document.getElementById("mensagem-download");
+    if (videoTerminado) {
+      window.location.href = "pensandoemvoce.mp3";
+    } else {
+      msg.classList.remove("hidden");
+      setTimeout(() => msg.classList.add("hidden"), 5000);
+    }
+  }
 
   function respostaSim() {
     document.getElementById("pergunta").classList.add("hidden");
@@ -286,5 +318,3 @@
 
 </body>
 </html>
-
-
