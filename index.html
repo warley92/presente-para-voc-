@@ -31,15 +31,13 @@
       color: #ff66cc;
     }
 
-    iframe {
+    video {
       width: 100%;
       max-width: 560px;
-      height: 315px;
-      border: none;
+      height: auto;
       border-radius: 15px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
       margin-bottom: 30px;
-      transition: transform 0.3s ease;
     }
 
     .letra {
@@ -143,7 +141,10 @@
 </div>
 
 <div id="conteudo" class="hidden">
-  <iframe id="video" src="https://www.youtube.com/embed/WNlroc7tIAc?enablejsapi=1" allowfullscreen></iframe>
+  <video id="video" controls autoplay>
+    <source src="meuvideo.mp4" type="video/mp4">
+    Seu navegador não suporta vídeos HTML5.
+  </video>
   <div id="letra" class="letra">
     Quando vejo seu sorriso
     eu enxergo um paraíso
@@ -210,22 +211,14 @@
     document.getElementById("conteudo").classList.remove("hidden");
   }
 
-  let player;
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('video', {
-      events: {
-        'onStateChange': onPlayerStateChange
-      }
-    });
-  }
-
-  function onPlayerStateChange(event) {
-    if (event.data === YT.PlayerState.ENDED) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById("video");
+    video.addEventListener("ended", () => {
       document.getElementById("letra").classList.add("hidden");
       document.getElementById("refrão").classList.remove("hidden");
       document.getElementById("pergunta").classList.remove("hidden");
-    }
-  }
+    });
+  });
 
   function respostaSim() {
     document.getElementById("pergunta").classList.add("hidden");
@@ -272,25 +265,8 @@
   }
 
   function apagarFraseSequencial(index, frases, elementos) {
-    if (index >= elementos.length) {
-      const mensagemFinal = document.createElement("div");
-        mensagemFinal.style.textAlign = "center";
-        mensagemFinal.style.marginTop = "20px";
-        mensagemFinal.style.fontSize = "1.5em";
-        document.getElementById("resultado").appendChild(mensagemFinal);
-      
-        const textoFinal = "Espero que tenha gostado do seu mar... porque eu ainda tô nadando. 🌊💖";
-        let i = 0;
-        const digitar = setInterval(() => {
-          if (i < textoFinal.length) {
-            mensagemFinal.textContent += textoFinal.charAt(i);
-            i++;
-          } else {
-            clearInterval(digitar);
-          }
-        }, 75); // Velocidade da digitação (em ms)
-      return;
-    }
+    if (index >= elementos.length) return;
+
     const div = elementos[index];
     const texto = frases[index];
     let i = texto.length;
@@ -304,12 +280,9 @@
         div.textContent = texto.charAt(0);
         apagarFraseSequencial(index + 1, frases, elementos);
       }
-    }, 80);
+    }, 300);
   }
 </script>
-<script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
-
-
